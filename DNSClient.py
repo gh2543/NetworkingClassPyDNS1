@@ -28,7 +28,7 @@ def query_dns_server(domain,question_type):
     return ip_address
     
 # Define a function to compare the results from the local and public DNS servers for each domain name in the list
-def compare_dns_servers(question_type):
+def compare_dns_servers(domainList,question_type):
     for domain_name in domainList:
         local_ip_address = query_local_dns_server(domain_name,question_type)
         public_ip_address = query_dns_server(domain_name,question_type)
@@ -66,8 +66,8 @@ if __name__ == '__main__':
     local_external_DNS_output(question_type)
     
     # Call the function to compare the results from both DNS servers and print the result
-    
-    #result = compare_dns_servers(domainList,question_type)
+    result = compare_dns_servers(domainList,question_type)
+    print(result)
     result = query_local_dns_server('nyu.edu.',question_type)
     print(result)
     
