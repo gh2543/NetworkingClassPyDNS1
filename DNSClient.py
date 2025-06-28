@@ -1,8 +1,9 @@
+
 import dns.resolver
 
 # Set the IP address of the local DNS server and a public DNS server
-local_host_ip = '127.0.0.1'
-real_name_server = '1.1.1.1' # Research public DNS servers to find a valid DNS server IP address to use
+local_host_ip = "127.0.0.1"
+real_name_server = "8.8.8.8" # Research public DNS servers to find a valid DNS server IP address to use
 
 
 # Create a list of domain names to query - use the same list from the DNS Server
@@ -12,18 +13,18 @@ domainList  = ['example.com.','safebank.com.','google.com.','nyu.edu.','legitsit
 def query_local_dns_server(domain,question_type):
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [local_host_ip]
-    answers = resolver.resolve(domain,question_type) # provide the domain and question_type
+    answers = resolver.resolve(domain, question_type) # provide the domain and question_type
 
-    ip_address = answers[1].to_text()
+    ip_address = answers[0].to_text()
     return ip_address   
     
 # Define a function to query a public DNS server for the IP address of a given domain name
 def query_dns_server(domain,question_type):
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [real_name_server]
-    answers = resolver.resolve(domain,question_type) # provide the domain and question_type
+    answers = resolver.resolve(domain, question_type) # provide the domain and question_type
 
-    ip_address = answers[1].to_text()
+    ip_address = answers[0].to_text()
     return ip_address
     
 # Define a function to compare the results from the local and public DNS servers for each domain name in the list
@@ -50,9 +51,9 @@ def local_external_DNS_output(question_type):
         print(f"The IP address of {domain_name} is {ip_address}")
         
         
-#def exfiltrate_info(???,???): # testing method for part 2
-#    data = query_local_dns_server(???,???)
-#    return data 
+def exfiltrate_info(domain,question_type): # testing method for part 2
+    data = query_local_dns_server(domain,question_type)
+    return data 
 
         
 if __name__ == '__main__':
@@ -65,8 +66,9 @@ if __name__ == '__main__':
     #local_external_DNS_output(question_type)
     
     # Call the function to compare the results from both DNS servers and print the result
-    result = compare_dns_servers(domainList,question_type)
-    result = query_local_dns_server('nyu.edu.',question_type)
+    #result = compare_dns_servers(domainList,question_type)
+    #print(result)
+    result = query_dns_server('nyu.edu.',question_type)
     print(result)
     
     #print(exfiltrate_info())
